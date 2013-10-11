@@ -203,7 +203,7 @@ static uint32_t wifi_off_gpio_table[] = {
 	PCOM_GPIO_CFG(110, 0, GPIO_OUTPUT, GPIO_NO_PULL, GPIO_12MA), /* CLK */
 	PCOM_GPIO_CFG(147, 0, GPIO_INPUT, GPIO_PULL_DOWN, GPIO_12MA), /* WLAN IRQ */
 };
-
+/*
 static void config_gpio_table(uint32_t *table, int len)
 {
 		int n, rc;
@@ -216,7 +216,7 @@ static void config_gpio_table(uint32_t *table, int len)
 				}
 		}
 }
-
+*/
 /* BCM4329 returns wrong sdio_vsn(1) when we read cccr,
  * we use predefined value (sdio_vsn=2) here to initial sdio driver well
  */

@@ -110,7 +110,7 @@
 #include <mach/htc_bdaddress.h>
 #endif
 
-#ifdef CONFIG_SERIAL_BCM_BT_LPM
+#ifdef CONFIG_SERIAL_MSM_HS_PURE_ANDROID
 #include <mach/bcm_bt_lpm.h>
 #endif
 
@@ -144,7 +144,7 @@ static void headset_device_register(void);
 
 static unsigned int engineerid = 0;
 static unsigned int memory_size = 0;
-unsigned long msm_fb_base;
+extern unsigned long msm_fb_base;
 
 unsigned int primoc_get_engineerid(void)
 {
@@ -166,7 +166,7 @@ unsigned int primoc_get_engineerid(void)
 		(((dir) & 0x1) << 14)           | \
 		(((pull) & 0x3) << 15)          | \
 		(((drvstr) & 0xF) << 17))
-
+/*
 static void config_gpio_table(uint32_t *table, int len)
 {
 	int n, rc;
@@ -179,7 +179,7 @@ static void config_gpio_table(uint32_t *table, int len)
 		}
 	}
 }
-
+*/
 static struct bma250_platform_data gsensor_bma250_platform_data = {
 	.intr = PRIMOC_GPIO_GSENSOR_INT,
 	.chip_layout = 1,
@@ -2970,7 +2970,7 @@ static struct msm_pm_platform_data msm_pm_data[MSM_PM_SLEEP_MODE_NR] = {
 		.residency = 0,
 	},
 };
-
+/*
 static struct resource qsd_spi_resources[] = {
 	{
 		.name   = "spi_irq_in",
@@ -3006,18 +3006,17 @@ static struct resource qsd_spi_resources[] = {
 	},
 };
 
-static int msm_qsd_spi_dma_config(void)
-{
-	return -ENOMEM;
-}
-
-
 static struct platform_device qsd_device_spi = {
 	.name		= "spi_qsd",
 	.id		= 0,
 	.num_resources	= ARRAY_SIZE(qsd_spi_resources),
 	.resource	= qsd_spi_resources,
-};
+}; */
+
+static int msm_qsd_spi_dma_config(void)
+{
+	return -ENOMEM;
+}
 
 #if defined(CONFIG_RAWCHIP)
 static struct spi_board_info spi_rawchip_board_info[] __initdata = {
@@ -3423,12 +3422,12 @@ static struct platform_device msm_adc_device = {
 };
 #endif
 
-#if defined(CONFIG_SERIAL_MSM_HS) || defined(CONFIG_SERIAL_MSM_HS_LPM)
+#ifdef CONFIG_SERIAL_MSM_HS
 static struct msm_serial_hs_platform_data msm_uart_dm1_pdata = {
         .rx_wakeup_irq = -1,
 	.inject_rx_on_wakeup = 0,
 
-#ifdef CONFIG_SERIAL_BCM_BT_LPM
+#ifdef CONFIG_SERIAL_MSM_HS_PURE_ANDROID
 	.exit_lpm_cb = bcm_bt_lpm_exit_lpm_locked,
 #else
 	/* for bcm BT */
@@ -3438,7 +3437,7 @@ static struct msm_serial_hs_platform_data msm_uart_dm1_pdata = {
 #endif
 };
 
-#ifdef CONFIG_SERIAL_BCM_BT_LPM
+#ifdef CONFIG_SERIAL_MSM_HS_PURE_ANDROID
 static struct bcm_bt_lpm_platform_data bcm_bt_lpm_pdata = {
 	.gpio_wake = PRIMOC_GPIO_BT_WAKE,
 	.gpio_host_wake = PRIMOC_GPIO_BT_HOST_WAKE,
@@ -3794,7 +3793,6 @@ static struct platform_device *devices[] __initdata = {
 	&msm_device_ssbi7,
 #endif
 	&android_pmem_device,
-	&msm_fb_device,
 	&msm_migrate_pages_device,
 #ifdef CONFIG_MSM_ROTATOR
 	&msm_rotator_device,
@@ -3858,7 +3856,7 @@ static struct platform_device *devices[] __initdata = {
 #endif
 	&msm_ebi0_thermal,
 	&msm_ebi1_thermal,
-#ifdef CONFIG_SERIAL_BCM_BT_LPM
+#ifdef CONFIG_SERIAL_MSM_HS_PURE_ANDROID
        &bcm_bt_lpm_device,
 #endif
 #if defined(CONFIG_SERIAL_MSM_HS) || defined(CONFIG_SERIAL_MSM_HS_LPM)
@@ -5219,8 +5217,8 @@ static void __init primoc_init(void)
 	bt_export_bd_address();
 #endif
 
-#if defined(CONFIG_SERIAL_MSM_HS) || defined(CONFIG_SERIAL_MSM_HS_LPM)
-#ifndef CONFIG_SERIAL_BCM_BT_LPM
+#ifdef CONFIG_SERIAL_MSM_HS
+#ifdef CONFIG_SERIAL_MSM_HS_PURE_ANDROID
 	msm_uart_dm1_pdata.rx_wakeup_irq = gpio_to_irq(PRIMOC_GPIO_BT_HOST_WAKE);
 #endif
 #ifdef CONFIG_SERIAL_MSM_HS
