@@ -55,15 +55,15 @@
 #include <linux/usb/msm_hsusb.h>
 #endif
 #include <mach/msm_spi.h>
-#include <mach/qdsp5v2_2x/msm_lpa.h>
+#include <mach/qdsp5v2/msm_lpa.h>
 #include <mach/dma.h>
 #include <linux/android_pmem.h>
 #include <linux/input/msm_ts.h>
 #include <mach/pmic.h>
 #include <mach/rpc_pmapp.h>
-#include <mach/qdsp5v2_2x/aux_pcm.h>
-#include <mach/qdsp5v2_2x/mi2s.h>
-#include <mach/qdsp5v2_2x/audio_dev_ctl.h>
+#include <mach/qdsp5v2/aux_pcm.h>
+#include <mach/qdsp5v2/mi2s.h>
+#include <mach/qdsp5v2/audio_dev_ctl.h>
 #ifdef CONFIG_HTC_BATTCHG
 #include <mach/htc_battery.h>
 #endif
@@ -97,18 +97,14 @@
 #include "acpuclock.h"
 #include <mach/dal_axi.h>
 #include <mach/msm_serial_hs.h>
-#include <mach/qdsp5v2_2x/mi2s.h>
-#include <mach/qdsp5v2_2x/audio_dev_ctl.h>
+#include <mach/qdsp5v2/mi2s.h>
+#include <mach/qdsp5v2/audio_dev_ctl.h>
 #include <mach/sdio_al.h>
 #include "smd_private.h"
 #include "board-primoc.h"
-#include <mach/tpa2051d3.h>
+#include <linux/tpa2051d3.h>
 #include "board-msm7x30-regulator.h"
 #include <mach/board_htc.h>
-
-#ifdef CONFIG_PERFLOCK
-#include <mach/perflock.h>
-#endif
 
 #ifdef CONFIG_BT
 #include <mach/htc_bdaddress.h>
@@ -3798,6 +3794,7 @@ static struct platform_device *devices[] __initdata = {
 	&msm_device_ssbi7,
 #endif
 	&android_pmem_device,
+	&msm_fb_device,
 	&msm_migrate_pages_device,
 #ifdef CONFIG_MSM_ROTATOR
 	&msm_rotator_device,
@@ -4989,19 +4986,6 @@ static struct msm_spm_platform_data msm_spm_data __initdata = {
 	.vctl_timeout_us = 50,
 };
 
-#ifdef CONFIG_PERFLOCK
-static unsigned primoc_perf_acpu_table[] = {
-	245000000,
-	768000000,
-	1024000000,
-};
-
-static struct perflock_platform_data primoc_perflock_data = {
-	.perf_acpu_table = primoc_perf_acpu_table,
-	.table_size = ARRAY_SIZE(primoc_perf_acpu_table),
-};
-#endif
-
 #ifdef CONFIG_HAPTIC_ISA1200
 static const char *vregs_isa1200_name[] = {
 	/*"gp7",*/
@@ -5231,10 +5215,6 @@ static void __init primoc_init(void)
 	msm_spm_init(&msm_spm_data, 1);
 	acpuclk_init(&acpuclk_7x30_soc_data);
 
-#ifdef CONFIG_PERFLOCK
-	perflock_init(&primoc_perflock_data);
-#endif
-
 #ifdef CONFIG_BT
 	bt_export_bd_address();
 #endif
@@ -5408,7 +5388,7 @@ static void __init primoc_init(void)
 	primoc_te_gpio_config();
 #endif
 	primoc_init_panel();
-	primoc_wifi_init();
+	msm7x30_wifi_init();
 
 }
 

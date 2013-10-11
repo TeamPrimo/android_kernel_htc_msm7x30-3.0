@@ -56,7 +56,7 @@ enum flashlight_mode_flags {
 //HTC_END
 
 };
-#if defined(CONFIG_FLASHLIGHT_AAT1271) || defined(CONFIG_LEDS_MAX8957_FLASH)
+#if (defined(CONFIG_FLASHLIGHT_AAT1271)) && !defined(CONFIG_LEDS_MAX8957_FLASH)
 struct flashlight_platform_data {
 	void (*gpio_init) (void);
 	uint32_t torch;

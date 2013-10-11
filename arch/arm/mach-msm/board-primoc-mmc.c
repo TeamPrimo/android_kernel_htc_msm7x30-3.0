@@ -268,7 +268,7 @@ static struct mmc_platform_data primoc_wifi_data = {
 		.dummy52_required = 1, */
 };
 
-int primoc_wifi_set_carddetect(int val)
+int msm7x30_wifi_set_carddetect(int val)
 {
 	printk(KERN_INFO "%s: %d\n", __func__, val);
 	primoc_wifi_cd = val;
@@ -278,18 +278,18 @@ int primoc_wifi_set_carddetect(int val)
 		printk(KERN_WARNING "%s: Nobody to notify\n", __func__);
 	return 0;
 }
-EXPORT_SYMBOL(primoc_wifi_set_carddetect);
+EXPORT_SYMBOL(msm7x30_wifi_set_carddetect);
 
-int primoc_wifi_power(int on)
+int msm7x30_wifi_power(int on)
 {
 	printk(KERN_INFO "[WLAN]%s: %d\n", __func__, on);
 
 	if (on) {
-	   config_gpio_table(wifi_on_gpio_table,
-				ARRAY_SIZE(wifi_on_gpio_table));
+	   	config_gpio_table(wifi_on_gpio_table,
+			ARRAY_SIZE(wifi_on_gpio_table));
 	} else {
-      config_gpio_table(wifi_off_gpio_table,
-				ARRAY_SIZE(wifi_off_gpio_table));
+		config_gpio_table(wifi_off_gpio_table,
+			ARRAY_SIZE(wifi_off_gpio_table));
 	}
 
 	/* primoc_wifi_bt_sleep_clk_ctl(on, ID_WIFI); */
@@ -297,9 +297,9 @@ int primoc_wifi_power(int on)
 	mdelay(120);
 	return 0;
 }
-EXPORT_SYMBOL(primoc_wifi_power);
+EXPORT_SYMBOL(msm7x30_wifi_power);
 
-int primoc_wifi_reset(int on)
+int msm7x30_wifi_reset(int on)
 {
 	printk(KERN_INFO "%s: do nothing\n", __func__);
 	return 0;

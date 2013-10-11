@@ -24,16 +24,16 @@
 #include <linux/mfd/msm-adie-codec.h>
 #include <linux/delay.h>
 #include <linux/workqueue.h>
-#include <mach/tpa2051d3.h>
+#include <linux/tpa2051d3.h>
 #include <mach/gpio.h>
 #include <mach/pmic.h>
 #include <mach/dal.h>
 #include "board-primoc.h"
-#include <mach/qdsp5v2_2x/snddev_icodec.h>
-#include <mach/qdsp5v2_2x/snddev_ecodec.h>
-#include <mach/qdsp5v2_2x/audio_def.h>
-#include <mach/qdsp5v2_2x/voice.h>
-#include <mach/qdsp5v2_2x/audio_acdbi.h>
+#include <mach/qdsp5v2/snddev_icodec.h>
+#include <mach/qdsp5v2/snddev_ecodec.h>
+#include <mach/qdsp5v2/audio_def.h>
+#include <mach/qdsp5v2/voice.h>
+#include <mach/qdsp5v2/audio_acdbi.h>
 #include <mach/htc_acoustic_7x30.h>
 #include <mach/htc_acdb_7x30.h>
 
